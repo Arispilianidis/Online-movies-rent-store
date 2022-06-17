@@ -1,0 +1,492 @@
+{
+	"info": {
+		"_postman_id": "08abd8ff-41f1-4294-9a1c-f7fab99a0526",
+		"name": "Deus_ex",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21374619"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login as existing user in the DB",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Login as Aris Pilianidis\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.expect(responseJson.availabe_api_endpoints).to.be.an(\"array\")\r",
+									"  pm.expect(responseJson.availabe_api_endpoints[0]).to.be.an(\"object\")\r",
+									"pm.expect(responseJson.availabe_api_endpoints[0]).to.be.eql({ 'Welcome ': ' Aris Pilianidis' })\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/login?email=apiliani@auth.gr&password=123",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "apiliani@auth.gr"
+								},
+								{
+									"key": "password",
+									"value": "123"
+								}
+							]
+						},
+						"description": "Login directly"
+					},
+					"response": []
+				},
+				{
+					"name": "Login as existing user, redirected from /movies/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/login?next=%2Fmovies%2F&email=apiliani@auth.gr&password=123",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "next",
+									"value": "%2Fmovies%2F"
+								},
+								{
+									"key": "email",
+									"value": "apiliani@auth.gr"
+								},
+								{
+									"key": "password",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign up as new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Expect status code 200\", () => {\r",
+									"     pm.expect(pm.response.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/sign_up?email=apiliani3@auth.gr&fname=Kostas&lname=pilianidis&password=1234",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"sign_up"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "apiliani3@auth.gr"
+								},
+								{
+									"key": "fname",
+									"value": "Kostas"
+								},
+								{
+									"key": "lname",
+									"value": "pilianidis"
+								},
+								{
+									"key": "password",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Expect current user Kostas pilianidis\", () => {\r",
+									"     pm.expect(pm.response.code).to.eql(200);\r",
+									"     const responseJson = pm.response.json();\r",
+									"     pm.expect(responseJson.availabe_api_endpoints[0]).to.be.eql({ 'Welcome ': ' Kostas pilianidis' }) \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/login?email=apiliani3@auth.gr&password=1234",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "apiliani3@auth.gr"
+								},
+								{
+									"key": "password",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Expect Logout Page\", () => {\r",
+									"    const responseJson = pm.response.text();\r",
+									"    pm.expect(responseJson).to.be.a(\"string\")\r",
+									"     pm.expect(responseJson).to.be.oneOf([\"This is the Logout Page \", \"This is the Login Page\"])\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Home Page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Api_endpoint_2_route_equals_logout_route\", () => {\r",
+							"  const responseJson = pm.response.json();\r",
+							"  pm.expect(responseJson.availabe_api_endpoints).to.be.an(\"array\")\r",
+							"  pm.expect(responseJson.availabe_api_endpoints[2].route).to.be.eql(\"http://127.0.0.1:5000/logout\")\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Initialize DB with dummy data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Expect status code 200\", () => {\r",
+							"     pm.expect(pm.response.code).to.eql(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Expect Added data to DB\", () => {\r",
+							"     const responseJson = pm.response.text();\r",
+							"     pm.expect(responseJson).to.be.eql(\"Added development dataset in the DataBase\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/initializeDB/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"initializeDB",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all movies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Expect 3 movies in the database the first of which has title Evil_Dead\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.movies).to.be.an(\"array\")\r",
+							"    pm.expect(responseJson.movies[0]).to.be.an(\"object\")\r",
+							"    pm.expect(responseJson.movies[0].title).to.be.eql(\"Evil_Dead\")\r",
+							"    pm.expect(responseJson.movies).to.have.length(3)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movies/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movies",
+						""
+					]
+				},
+				"description": "get movies"
+			},
+			"response": []
+		},
+		{
+			"name": "Get movie info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Expect Evil_Dead info\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson).to.be.an(\"object\")\r",
+							"    pm.expect(responseJson.Evil_Dead_info).to.be.eql(\"This movies is about zombies\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movies/Evil_Dead/info",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movies",
+						"Evil_Dead",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get movie by category e.g Thriller",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Expect 2 Thriller movies\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.movies_by_category).to.be.an(\"array\")\r",
+							"    pm.expect(responseJson.movies_by_category).to.have.length(2)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/movies/Thriller",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"movies",
+						"Thriller"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current user rents movie e.g Evil_Dead",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/rent/Evil_Dead",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"rent",
+						"Evil_Dead"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current user returns a movie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/return/Evil_Dead",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"return",
+						"Evil_Dead"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
